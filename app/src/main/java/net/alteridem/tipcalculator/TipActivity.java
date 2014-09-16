@@ -4,6 +4,11 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class TipActivity extends Activity {
@@ -12,8 +17,25 @@ public class TipActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tip);
-    }
 
+        List<String> percents_list = new ArrayList<String>(26);
+        for(int i=0; i<=25; i++) {
+            percents_list.add(String.format("%d%%", i));
+        }
+
+        Spinner percents = (Spinner) findViewById(R.id.activity_tip_percent);
+        ArrayAdapter<String> percents_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, percents_list);
+        percents.setAdapter(percents_adapter);
+
+        List<String> split_list = new ArrayList<String>(12);
+        for(int i=1; i<=12; i++) {
+            split_list.add(String.format("%d", i));
+        }
+
+        Spinner split = (Spinner) findViewById(R.id.activity_tip_split);
+        ArrayAdapter<String> split_adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, split_list);
+        split.setAdapter(split_adapter);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

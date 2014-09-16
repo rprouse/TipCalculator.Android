@@ -2,7 +2,12 @@
 <resources>
 
     <string name="app_name">Tip Calculator</string>
-    <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Tip Activity -->
+    <string name="activity_tip_bill_amount">Bill amount</string>
+    <string name="activity_tip_split">Split</string>
+    <string name="activity_tip_percent">Tip percent</string>
+
 
 </resources>
