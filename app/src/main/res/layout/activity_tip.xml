@@ -25,20 +25,21 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         tools:text="9.99"
-        android:ems="10" />
+        android:ems="10"
+        android:layout_margin="12dp" />
 
     <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="16dp">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginRight="3dp">
+            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp">
 
             <TextView
                 android:id="@+id/activity_tip_percent_label"
@@ -53,7 +54,8 @@
             <Spinner
                 android:id="@+id/activity_tip_percent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp" />
 
             <TextView
                 android:id="@+id/activity_tip_tip_per_person_label"
@@ -68,10 +70,10 @@
             <TextView
                 android:id="@+id/activity_tip_tip_per_person"
                 tools:text="9.99"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp" />
+                android:layout_margin="12dp" />
 
             <TextView
                 android:id="@+id/activity_tip_total_per_person_label"
@@ -86,10 +88,10 @@
             <TextView
                 android:id="@+id/activity_tip_total_per_person"
                 tools:text="9.99"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp" />
+                android:layout_margin="12dp" />
 
         </LinearLayout>
 
@@ -98,7 +100,8 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp">
+            android:layout_marginLeft="3dp"
+            android:layout_marginStart="3dp">
 
             <TextView
                 android:id="@+id/activity_tip_split_label"
@@ -113,7 +116,8 @@
             <Spinner
                 android:id="@+id/activity_tip_split"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp" />
 
             <TextView
                 android:id="@+id/activity_tip_tip_label"
@@ -128,10 +132,10 @@
             <TextView
                 android:id="@+id/activity_tip_tip"
                 tools:text="9.99"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp" />
+                android:layout_margin="12dp" />
 
             <TextView
                 android:id="@+id/activity_tip_total_label"
@@ -146,10 +150,10 @@
             <TextView
                 android:id="@+id/activity_tip_total"
                 tools:text="9.99"
-                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textAppearance="?android:attr/textAppearanceLarge"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="6dp" />
+                android:layout_margin="12dp" />
 
         </LinearLayout>
 
