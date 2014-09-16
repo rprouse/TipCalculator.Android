@@ -6,8 +6,12 @@
 
     <!-- Tip Activity -->
     <string name="activity_tip_bill_amount">Bill amount</string>
-    <string name="activity_tip_split">Split</string>
+    <string name="activity_tip_split"># People</string>
     <string name="activity_tip_percent">Tip percent</string>
+    <string name="activity_tip_tip">Total Tip</string>
+    <string name="activity_tip_tip_per_person">Tip/Person</string>
+    <string name="activity_total_tip">Total Bill</string>
+    <string name="activity_tip_total_per_person">Total/Person</string>
 
 
 </resources>

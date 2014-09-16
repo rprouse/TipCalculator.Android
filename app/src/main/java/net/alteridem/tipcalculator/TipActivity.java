@@ -19,8 +19,12 @@ import java.util.List;
 public class TipActivity extends Activity {
 
     private TextView _bill;
-    private Spinner percents;
-    private Spinner split;
+    private Spinner _percentSpinner;
+    private Spinner _splitSpinner;
+    private TextView _tip;
+    private TextView _tipPerPerson;
+    private TextView _total;
+    private TextView _totalPerPerson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,13 +49,18 @@ public class TipActivity extends Activity {
         for(int i=0; i<=25; i++) {
             percents_list.add(String.format("%d%%", i));
         }
-        percents = getSpinner(R.id.activity_tip_percent, percents_list, 15);
+        _percentSpinner = getSpinner(R.id.activity_tip_percent, percents_list, 15);
 
         List<String> split_list = new ArrayList<String>(12);
         for(int i=1; i<=12; i++) {
             split_list.add(String.format("%d", i));
         }
-        split = getSpinner(R.id.activity_tip_split, split_list, 0);
+        _splitSpinner = getSpinner(R.id.activity_tip_split, split_list, 0);
+
+        _tip = (TextView)findViewById(R.id.activity_tip_tip);
+        _tipPerPerson = (TextView)findViewById(R.id.activity_tip_tip_per_person);
+        _total = (TextView)findViewById(R.id.activity_tip_total);
+        _totalPerPerson = (TextView)findViewById(R.id.activity_tip_total_per_person);
     }
 
     private Spinner getSpinner(int spinnerId, List<String> list, int initialSelection) {
@@ -96,6 +105,34 @@ public class TipActivity extends Activity {
     }
 
     private void recalculate() {
+        double bill = billAmount();
+        int percentage = percentage();
+        int split = split();
+        double tip = bill * percentage/100;
+        double tipPerPerson = tip / split;
+        double total = bill + tip;
+        double totalPerPerson = total / split;
 
+        _tip.setText(String.format("%.2f", tip));
+        _tipPerPerson.setText(String.format("%.2f", tipPerPerson));
+        _total.setText(String.format("%.2f", total));
+        _totalPerPerson.setText(String.format("%.2f", totalPerPerson));
+    }
+
+    private int percentage() {
+        return _percentSpinner.getSelectedItemPosition();
+    }
+
+    private int split() {
+        return _splitSpinner.getSelectedItemPosition() + 1;
+    }
+
+    private double billAmount() {
+        double bill = 0;
+        try {
+            bill = Double.parseDouble(_bill.getText().toString());
+        } catch (NumberFormatException nfe) {
+        }
+        return bill;
     }
 }

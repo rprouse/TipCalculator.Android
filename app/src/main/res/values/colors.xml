@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="label_background">#ff42435c</color>
+    <color name="label_textcolor">#ffffffff</color>
+</resources>

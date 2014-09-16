@@ -14,13 +14,17 @@
         android:text="@string/activity_tip_bill_amount"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:padding="6dp"
+        android:background="@color/label_background"
+        android:textColor="@color/label_textcolor" />
 
     <EditText
         android:id="@+id/activity_tip_bill_amount"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
+        tools:text="9.99"
         android:ems="10" />
 
     <LinearLayout
@@ -33,19 +37,59 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginRight="3dp">
 
             <TextView
                 android:id="@+id/activity_tip_percent_label"
                 android:text="@string/activity_tip_percent"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@color/label_background"
+                android:textColor="@color/label_textcolor" />
 
             <Spinner
                 android:id="@+id/activity_tip_percent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/activity_tip_tip_per_person_label"
+                android:text="@string/activity_tip_tip_per_person"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@color/label_background"
+                android:textColor="@color/label_textcolor" />
+
+            <TextView
+                android:id="@+id/activity_tip_tip_per_person"
+                tools:text="9.99"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp" />
+
+            <TextView
+                android:id="@+id/activity_tip_total_per_person_label"
+                android:text="@string/activity_tip_total_per_person"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@color/label_background"
+                android:textColor="@color/label_textcolor" />
+
+            <TextView
+                android:id="@+id/activity_tip_total_per_person"
+                tools:text="9.99"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp" />
 
         </LinearLayout>
 
@@ -53,19 +97,59 @@
             android:orientation="vertical"
             android:layout_weight="1"
             android:layout_width="0dp"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp">
 
             <TextView
                 android:id="@+id/activity_tip_split_label"
                 android:text="@string/activity_tip_split"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@color/label_background"
+                android:textColor="@color/label_textcolor" />
 
             <Spinner
                 android:id="@+id/activity_tip_split"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+
+            <TextView
+                android:id="@+id/activity_tip_tip_label"
+                android:text="@string/activity_tip_tip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@color/label_background"
+                android:textColor="@color/label_textcolor" />
+
+            <TextView
+                android:id="@+id/activity_tip_tip"
+                tools:text="9.99"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp" />
+
+            <TextView
+                android:id="@+id/activity_tip_total_label"
+                android:text="@string/activity_total_tip"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp"
+                android:background="@color/label_background"
+                android:textColor="@color/label_textcolor" />
+
+            <TextView
+                android:id="@+id/activity_tip_total"
+                tools:text="9.99"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="6dp" />
 
         </LinearLayout>
 
