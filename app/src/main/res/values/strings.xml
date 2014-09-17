@@ -5,9 +5,9 @@
     <string name="action_settings">Settings</string>
 
     <!-- Tip Activity -->
-    <string name="activity_tip_bill_amount">Bill amount</string>
+    <string name="activity_tip_bill_amount">Bill Amount</string>
     <string name="activity_tip_split"># People</string>
-    <string name="activity_tip_percent">Tip percent</string>
+    <string name="activity_tip_percent">Tip Amount</string>
     <string name="activity_tip_tip">Total Tip</string>
     <string name="activity_tip_tip_per_person">Tip/Person</string>
     <string name="activity_total_tip">Total Bill</string>
