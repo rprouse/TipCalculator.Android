@@ -26,10 +26,7 @@ import java.util.List;
 public class TipActivity extends Activity {
     private static final String TAG = TipActivity.class.getSimpleName();
 
-    private static final String BILL_AMOUNT = "BILL_AMOUNT";
-    private static final String TIP = "TIP";
-    private static final String PEOPLE = "PEOPLE";
-
+    private AppSettings _settings;
     private TextView _bill;
     private Spinner _tipPercentSpinner;
     private Spinner _numberPeopleSpinner;
@@ -44,15 +41,11 @@ public class TipActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tip);
 
-        String bill = "";
-        int tipPercent = 15;
-        int numberPeople = 0;   // This is the spinner position
-        if (savedInstanceState != null) {
-            Log.i(TAG, "onCreate - savedInstanceState != null");
-            bill = savedInstanceState.getString(BILL_AMOUNT, "");
-            tipPercent = savedInstanceState.getInt(TIP, 15);
-            numberPeople = savedInstanceState.getInt(PEOPLE, 0);
-        }
+        _settings = new AppSettings(this);
+
+        String bill = _settings.getBillAmount();;
+        int tipPercent = _settings.getTipPercent();
+        int numberPeople = _settings.getNumberPeople();   // This is the spinner position
 
         _bill = (TextView)findViewById(R.id.activity_tip_bill_amount);
         _bill.setText(bill);
@@ -109,9 +102,9 @@ public class TipActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         Log.i(TAG, "onSaveInstanceState");
-        outState.putString(BILL_AMOUNT, _bill.getText().toString());
-        outState.putInt(TIP, _tipPercentSpinner.getSelectedItemPosition());
-        outState.putInt(PEOPLE, _numberPeopleSpinner.getSelectedItemPosition());
+        _settings.saveState(_bill.getText().toString(),
+                _tipPercentSpinner.getSelectedItemPosition(),
+                _numberPeopleSpinner.getSelectedItemPosition());
         super.onSaveInstanceState(outState);
     }
 
@@ -148,7 +141,7 @@ public class TipActivity extends Activity {
     }
 
     private void recalculate() {
-        int precision = precision();
+        int precision = _settings.getPrecision();
         BigDecimal bill = billAmount(precision);
         BigDecimal percentage = new BigDecimal(percentage()/100f).setScale(precision, BigDecimal.ROUND_UP);
         BigDecimal split = new BigDecimal(split()).setScale(precision, BigDecimal.ROUND_UP);
@@ -161,15 +154,6 @@ public class TipActivity extends Activity {
         _tipPerPerson.setText(String.format("%s", tipPerPerson.toPlainString()));
         _total.setText(String.format("%s", total.toPlainString()));
         _totalPerPerson.setText(String.format("%s", totalPerPerson.toPlainString()));
-    }
-
-    private int precision(){
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String precStr = sharedPreferences.getString(getString(R.string.settings_decimal_places_key), "2");
-        try {
-            return Integer.parseInt(precStr);
-        } catch (NumberFormatException nfe) {}
-        return 2;
     }
 
     private double percentage() {
