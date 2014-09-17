@@ -13,5 +13,9 @@
     <string name="activity_total_tip">Total Bill</string>
     <string name="activity_tip_total_per_person">Total/Person</string>
 
+    <string name="activity_settings_title">Settings</string>
+    <string name="settings_decimal_places_key" translatable="false">SettingsDecimalPlaces</string>
+    <string name="settings_decimal_places_title">Currency decimal places</string>
+    <string name="settings_decimal_places_summary">The number of decimal places that the tip and bill will be rounded to.</string>
 
 </resources>

@@ -1,7 +1,10 @@
 package net.alteridem.tipcalculator;
 
 import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -99,6 +102,7 @@ public class TipActivity extends Activity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
@@ -106,27 +110,28 @@ public class TipActivity extends Activity {
     }
 
     private void recalculate() {
-        BigDecimal bill = billAmount();
-        if (bill == null) {
-            _tip.setText("");
-            _tipPerPerson.setText("");
-            _total.setText("");
-            _totalPerPerson.setText("");
-            return;
-        }
-
-        // TODO: Make the currency precision a setting
-        BigDecimal percentage = new BigDecimal(percentage()/100f).setScale(2, BigDecimal.ROUND_UP);
-        BigDecimal split = new BigDecimal(split()).setScale(2, BigDecimal.ROUND_UP);
-        BigDecimal tip = bill.multiply(percentage).setScale(2, BigDecimal.ROUND_UP);
-        BigDecimal tipPerPerson = tip.divide(split, 2, BigDecimal.ROUND_UP);
+        int precision = precision();
+        BigDecimal bill = billAmount(precision);
+        BigDecimal percentage = new BigDecimal(percentage()/100f).setScale(precision, BigDecimal.ROUND_UP);
+        BigDecimal split = new BigDecimal(split()).setScale(precision, BigDecimal.ROUND_UP);
+        BigDecimal tip = bill.multiply(percentage).setScale(precision, BigDecimal.ROUND_UP);
+        BigDecimal tipPerPerson = tip.divide(split, precision, BigDecimal.ROUND_UP);
         BigDecimal total = bill.add(tip);
-        BigDecimal totalPerPerson = total.divide(split, 2, BigDecimal.ROUND_UP);
+        BigDecimal totalPerPerson = total.divide(split, precision, BigDecimal.ROUND_UP);
 
         _tip.setText(String.format("%s", tip.toPlainString()));
         _tipPerPerson.setText(String.format("%s", tipPerPerson.toPlainString()));
         _total.setText(String.format("%s", total.toPlainString()));
         _totalPerPerson.setText(String.format("%s", totalPerPerson.toPlainString()));
+    }
+
+    private int precision(){
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String precStr = sharedPreferences.getString(getString(R.string.settings_decimal_places_key), "2");
+        try {
+            return Integer.parseInt(precStr);
+        } catch (NumberFormatException nfe) {}
+        return 2;
     }
 
     private double percentage() {
@@ -137,11 +142,11 @@ public class TipActivity extends Activity {
         return _splitSpinner.getSelectedItemPosition() + 1;
     }
 
-    private BigDecimal billAmount() {
+    private BigDecimal billAmount(int precision) {
         try {
-            BigDecimal amount = new BigDecimal(_bill.getText().toString()).setScale(2, BigDecimal.ROUND_UP);
+            BigDecimal amount = new BigDecimal(_bill.getText().toString()).setScale(precision, BigDecimal.ROUND_UP);
             return amount;
         } catch (NumberFormatException nfe) {}
-        return null;
+        return new BigDecimal(0).setScale(precision);
     }
 }

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ListPreference
+        android:key="@string/settings_decimal_places_key"
+        android:title="@string/settings_decimal_places_title"
+        android:summary="@string/settings_decimal_places_summary"
+        android:defaultValue="2"
+        android:entries="@array/settings_decimal_places_list"
+        android:entryValues="@array/settings_decimal_places_list"
+        android:negativeButtonText="@null"
+        android:positiveButtonText="@null" />
+
+</PreferenceScreen>
