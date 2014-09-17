@@ -16,6 +16,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import net.alteridem.tipcalculator.utilites.PlayStore;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -130,18 +132,18 @@ public class TipActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Log.i(TAG, "onOptionsItemSelected");
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
         Log.i(TAG, "onOptionsItemSelected");
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
+        switch (id) {
+            case R.id.action_settings:
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            case R.id.action_rate:
+                PlayStore.rateApp(this);
+                return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
