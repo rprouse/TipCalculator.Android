@@ -16,19 +16,19 @@
         <TextView
             android:id="@+id/activity_tip_bill_amount_label"
             android:text="@string/activity_tip_bill_amount"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="4"
             android:padding="8dp"
-            android:layout_marginRight="26dp"
+            android:layout_marginRight="36dp"
             android:background="@color/dark_blue"
             android:textColor="@color/light_text" />
 
         <TextView
             android:id="@+id/activity_tip_tip_per_person_label"
             android:text="@string/activity_tip_tip_per_person"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -40,7 +40,7 @@
         <TextView
             android:id="@+id/activity_tip_tip_label"
             android:text="@string/activity_tip_tip"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -67,17 +67,17 @@
         <TextView
             android:id="@+id/activity_tip_tip_per_person"
             tools:text="9.99"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:layout_margin="12dp"
-            android:paddingLeft="22dp"/>
+            android:paddingLeft="42dp"/>
 
         <TextView
             android:id="@+id/activity_tip_tip"
             tools:text="9.99"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -93,7 +93,7 @@
         <TextView
             android:id="@+id/activity_tip_percent_label"
             android:text="@string/activity_tip_percent"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
@@ -105,11 +105,11 @@
         <TextView
             android:id="@+id/activity_tip_split_label"
             android:text="@string/activity_tip_split"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:layout_marginRight="26dp"
+            android:layout_marginRight="36dp"
             android:padding="8dp"
             android:background="@color/dark_blue"
             android:textColor="@color/light_text" />
@@ -117,7 +117,7 @@
         <TextView
             android:id="@+id/activity_tip_total_per_person_label"
             android:text="@string/activity_tip_total_per_person"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -129,7 +129,7 @@
         <TextView
             android:id="@+id/activity_tip_total_label"
             android:text="@string/activity_total_tip"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
@@ -160,17 +160,17 @@
         <TextView
             android:id="@+id/activity_tip_total_per_person"
             tools:text="9.99"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
             android:layout_margin="12dp"
-            android:paddingLeft="6dp"/>
+            android:paddingLeft="32dp" />
 
         <TextView
             android:id="@+id/activity_tip_total"
             tools:text="9.99"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="3"
