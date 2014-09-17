@@ -1,30 +1,3 @@
-A simple app to calculate tips and split the bill between friends. It is designed to be quick and simple to use.
-
-This app has no ads, is totally free, requires no permissions and doesn't track you in any way.
-
-Get it on the [Google Play Store](https://play.google.com/store/apps/details?id=net.alteridem.tipcalculator)
-
-### Features ###
-
-- Simple to use, just enter the bill amount, tip percentage and number of people
-- Calculates the tip, tip per person, total bill and the split of the total per person
-- The number of decimal places is configurable
-- Ad free
-
-### Changes ###
-
-**v1.1 - 2014-09-18**
-
-- Added a rate-app option
-- Added tablet layouts
-- State is now saved between runs
-
-**v1.0 - 2014-09-16**
-
-- Initial release
-
-### License ###
-
 The MIT License (MIT)
 
 Copyright (c) 2014 Rob Prouse
@@ -45,7 +18,3 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-
-### Attribututions ###
-
-The application icon is from [Webdesigner Depot](http://www.webdesignerdepot.com/)
