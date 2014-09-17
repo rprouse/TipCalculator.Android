@@ -1,0 +1,1 @@
+A simple app to calculate tips and split the bill between friends.
