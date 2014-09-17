@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,10 +22,15 @@ import java.util.List;
 
 
 public class TipActivity extends Activity {
+    private static final String TAG = TipActivity.class.getSimpleName();
+
+    private static final String BILL_AMOUNT = "BILL_AMOUNT";
+    private static final String TIP = "TIP";
+    private static final String PEOPLE = "PEOPLE";
 
     private TextView _bill;
-    private Spinner _percentSpinner;
-    private Spinner _splitSpinner;
+    private Spinner _tipPercentSpinner;
+    private Spinner _numberPeopleSpinner;
     private TextView _tip;
     private TextView _tipPerPerson;
     private TextView _total;
@@ -32,10 +38,22 @@ public class TipActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tip);
 
+        String bill = "";
+        int tipPercent = 15;
+        int numberPeople = 0;   // This is the spinner position
+        if (savedInstanceState != null) {
+            Log.i(TAG, "onCreate - savedInstanceState != null");
+            bill = savedInstanceState.getString(BILL_AMOUNT, "");
+            tipPercent = savedInstanceState.getInt(TIP, 15);
+            numberPeople = savedInstanceState.getInt(PEOPLE, 0);
+        }
+
         _bill = (TextView)findViewById(R.id.activity_tip_bill_amount);
+        _bill.setText(bill);
         _bill.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
@@ -53,13 +71,13 @@ public class TipActivity extends Activity {
         for(int i=0; i<=25; i++) {
             percents_list.add(String.format("%d%%", i));
         }
-        _percentSpinner = getSpinner(R.id.activity_tip_percent, percents_list, 15);
+        _tipPercentSpinner = getSpinner(R.id.activity_tip_percent, percents_list, tipPercent);
 
         List<String> split_list = new ArrayList<String>(12);
         for(int i=1; i<=12; i++) {
             split_list.add(String.format("%d", i));
         }
-        _splitSpinner = getSpinner(R.id.activity_tip_split, split_list, 0);
+        _numberPeopleSpinner = getSpinner(R.id.activity_tip_split, split_list, numberPeople);
 
         _tip = (TextView)findViewById(R.id.activity_tip_tip);
         _tipPerPerson = (TextView)findViewById(R.id.activity_tip_tip_per_person);
@@ -87,7 +105,23 @@ public class TipActivity extends Activity {
     }
 
     @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        Log.i(TAG, "onSaveInstanceState");
+        outState.putString(BILL_AMOUNT, _bill.getText().toString());
+        outState.putInt(TIP, _tipPercentSpinner.getSelectedItemPosition());
+        outState.putInt(PEOPLE, _numberPeopleSpinner.getSelectedItemPosition());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        recalculate();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+        Log.i(TAG, "onCreateOptionsMenu");
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.tip, menu);
         return true;
@@ -95,10 +129,12 @@ public class TipActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        Log.i(TAG, "onOptionsItemSelected");
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
+        Log.i(TAG, "onOptionsItemSelected");
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
@@ -135,11 +171,11 @@ public class TipActivity extends Activity {
     }
 
     private double percentage() {
-        return _percentSpinner.getSelectedItemPosition();
+        return _tipPercentSpinner.getSelectedItemPosition();
     }
 
     private double split() {
-        return _splitSpinner.getSelectedItemPosition() + 1;
+        return _numberPeopleSpinner.getSelectedItemPosition() + 1;
     }
 
     private BigDecimal billAmount(int precision) {
