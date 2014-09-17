@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -105,34 +106,42 @@ public class TipActivity extends Activity {
     }
 
     private void recalculate() {
-        double bill = billAmount();
-        int percentage = percentage();
-        int split = split();
-        double tip = bill * percentage/100;
-        double tipPerPerson = tip / split;
-        double total = bill + tip;
-        double totalPerPerson = total / split;
+        BigDecimal bill = billAmount();
+        if (bill == null) {
+            _tip.setText("");
+            _tipPerPerson.setText("");
+            _total.setText("");
+            _totalPerPerson.setText("");
+            return;
+        }
 
-        _tip.setText(String.format("%.2f", tip));
-        _tipPerPerson.setText(String.format("%.2f", tipPerPerson));
-        _total.setText(String.format("%.2f", total));
-        _totalPerPerson.setText(String.format("%.2f", totalPerPerson));
+        // TODO: Make the currency precision a setting
+        BigDecimal percentage = new BigDecimal(percentage()/100f).setScale(2, BigDecimal.ROUND_UP);
+        BigDecimal split = new BigDecimal(split()).setScale(2, BigDecimal.ROUND_UP);
+        BigDecimal tip = bill.multiply(percentage).setScale(2, BigDecimal.ROUND_UP);
+        BigDecimal tipPerPerson = tip.divide(split, 2, BigDecimal.ROUND_UP);
+        BigDecimal total = bill.add(tip);
+        BigDecimal totalPerPerson = total.divide(split, 2, BigDecimal.ROUND_UP);
+
+        _tip.setText(String.format("%s", tip.toPlainString()));
+        _tipPerPerson.setText(String.format("%s", tipPerPerson.toPlainString()));
+        _total.setText(String.format("%s", total.toPlainString()));
+        _totalPerPerson.setText(String.format("%s", totalPerPerson.toPlainString()));
     }
 
-    private int percentage() {
+    private double percentage() {
         return _percentSpinner.getSelectedItemPosition();
     }
 
-    private int split() {
+    private double split() {
         return _splitSpinner.getSelectedItemPosition() + 1;
     }
 
-    private double billAmount() {
-        double bill = 0;
+    private BigDecimal billAmount() {
         try {
-            bill = Double.parseDouble(_bill.getText().toString());
-        } catch (NumberFormatException nfe) {
-        }
-        return bill;
+            BigDecimal amount = new BigDecimal(_bill.getText().toString()).setScale(2, BigDecimal.ROUND_UP);
+            return amount;
+        } catch (NumberFormatException nfe) {}
+        return null;
     }
 }
