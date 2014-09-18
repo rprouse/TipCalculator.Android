@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,6 +20,7 @@ import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.res.AnimationRes;
 import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.util.ArrayList;
@@ -84,11 +86,13 @@ public class TipActivity extends Activity {
     @OptionsItem(R.id.action_settings)
     void launchSetting() {
         startActivity(new Intent(this, SettingsActivity_.class));
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     @OptionsItem(R.id.action_rate)
     void rateApplication() {
         PlayStore.rateApp(this);
+        overridePendingTransition(R.anim.push_left_in, R.anim.push_left_out);
     }
 
     @ItemSelect({R.id.activity_tip_percent, R.id.activity_tip_split})
