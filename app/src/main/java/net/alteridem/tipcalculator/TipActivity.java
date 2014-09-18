@@ -3,21 +3,19 @@ package net.alteridem.tipcalculator;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
 import net.alteridem.tipcalculator.utilites.PlayStore;
 
+import org.androidannotations.annotations.AfterTextChange;
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ItemSelect;
+import org.androidannotations.annotations.OptionsItem;
+import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
 
 import java.math.BigDecimal;
@@ -25,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @EActivity(R.layout.activity_tip)
+@OptionsMenu(R.menu.tip)
 public class TipActivity extends Activity {
     private static final String TAG = TipActivity.class.getSimpleName();
 
@@ -39,56 +38,27 @@ public class TipActivity extends Activity {
     @ViewById(R.id.activity_tip_total_per_person) TextView _totalPerPerson;
 
     @AfterViews
-    void initializeLists() {
+    void initViews() {
 
         _settings = new AppSettings(this);
 
-        String bill = _settings.getBillAmount();
-        int tipPercent = _settings.getTipPercent();
-        int numberPeople = _settings.getNumberPeople();   // This is the spinner position
+        _bill.setText(_settings.getBillAmount());
+        setAdapter(_tipPercentSpinner, createList("%d%%", 0, 25), _settings.getTipPercent());
+        setAdapter(_numberPeopleSpinner, createList("%d", 1, 12), _settings.getNumberPeople());
+    }
 
-        _bill.setText(bill);
-        _bill.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                recalculate();
-            }
-        });
-
-        List<String> percents_list = new ArrayList<String>(26);
-        for(int i=0; i<=25; i++) {
-            percents_list.add(String.format("%d%%", i));
+    private List<String> createList(String format, int from, int to) {
+        List<String> list = new ArrayList<String>(to-from+1);
+        for(int i=from; i<=to; i++) {
+            list.add(String.format(format, i));
         }
-        setAdapter(_tipPercentSpinner, percents_list, tipPercent);
-
-        List<String> split_list = new ArrayList<String>(12);
-        for(int i=1; i<=12; i++) {
-            split_list.add(String.format("%d", i));
-        }
-        setAdapter(_numberPeopleSpinner, split_list, numberPeople);
+        return list;
     }
 
     private void setAdapter(Spinner spinner, List<String> list, int initialSelection) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
         spinner.setAdapter(adapter);
         spinner.setSelection(initialSelection);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                recalculate();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                recalculate();
-            }
-        });
     }
 
     @Override
@@ -106,37 +76,28 @@ public class TipActivity extends Activity {
         recalculate();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Log.i(TAG, "onCreateOptionsMenu");
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.tip, menu);
-        return true;
+    @OptionsItem(R.id.action_settings)
+    void launchSetting() {
+        startActivity(new Intent(this, SettingsActivity.class));
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        Log.i(TAG, "onOptionsItemSelected");
-
-        int id = item.getItemId();
-        Log.i(TAG, "onOptionsItemSelected");
-
-        switch (id) {
-            case R.id.action_settings:
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            case R.id.action_rate:
-                PlayStore.rateApp(this);
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    @OptionsItem(R.id.action_rate)
+    void rateApplication() {
+        PlayStore.rateApp(this);
     }
 
-    private void recalculate() {
+    @ItemSelect({R.id.activity_tip_percent, R.id.activity_tip_split})
+    void onItemSelect(boolean selected, int position) {
+        recalculate();
+    }
+
+    @AfterTextChange(R.id.activity_tip_bill_amount)
+    void recalculate() {
         int precision = _settings.getPrecision();
+        BigDecimal split = new BigDecimal(split()).setScale(precision, BigDecimal.ROUND_UP);
+        if (split.intValue() == 0) return;  // We are not set up yet
         BigDecimal bill = billAmount(precision);
         BigDecimal percentage = new BigDecimal(percentage()/100f).setScale(precision, BigDecimal.ROUND_UP);
-        BigDecimal split = new BigDecimal(split()).setScale(precision, BigDecimal.ROUND_UP);
         BigDecimal tip = bill.multiply(percentage).setScale(precision, BigDecimal.ROUND_UP);
         BigDecimal tipPerPerson = tip.divide(split, precision, BigDecimal.ROUND_UP);
         BigDecimal total = bill.add(tip);
