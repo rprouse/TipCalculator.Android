@@ -18,6 +18,7 @@ import net.alteridem.tipcalculator.utilites.PlayStore;
 
 import org.androidannotations.annotations.AfterViews;
 import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.ViewById;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -28,13 +29,14 @@ public class TipActivity extends Activity {
     private static final String TAG = TipActivity.class.getSimpleName();
 
     private AppSettings _settings;
-    private TextView _bill;
-    private Spinner _tipPercentSpinner;
-    private Spinner _numberPeopleSpinner;
-    private TextView _tip;
-    private TextView _tipPerPerson;
-    private TextView _total;
-    private TextView _totalPerPerson;
+
+    @ViewById(R.id.activity_tip_bill_amount)      TextView _bill;
+    @ViewById(R.id.activity_tip_percent)          Spinner _tipPercentSpinner;
+    @ViewById(R.id.activity_tip_split)            Spinner _numberPeopleSpinner;
+    @ViewById(R.id.activity_tip_tip)              TextView _tip;
+    @ViewById(R.id.activity_tip_tip_per_person)   TextView _tipPerPerson;
+    @ViewById(R.id.activity_tip_total)            TextView _total;
+    @ViewById(R.id.activity_tip_total_per_person) TextView _totalPerPerson;
 
     @AfterViews
     void initializeLists() {
@@ -45,7 +47,6 @@ public class TipActivity extends Activity {
         int tipPercent = _settings.getTipPercent();
         int numberPeople = _settings.getNumberPeople();   // This is the spinner position
 
-        _bill = (TextView)findViewById(R.id.activity_tip_bill_amount);
         _bill.setText(bill);
         _bill.addTextChangedListener(new TextWatcher() {
             @Override
@@ -64,22 +65,16 @@ public class TipActivity extends Activity {
         for(int i=0; i<=25; i++) {
             percents_list.add(String.format("%d%%", i));
         }
-        _tipPercentSpinner = getSpinner(R.id.activity_tip_percent, percents_list, tipPercent);
+        setAdapter(_tipPercentSpinner, percents_list, tipPercent);
 
         List<String> split_list = new ArrayList<String>(12);
         for(int i=1; i<=12; i++) {
             split_list.add(String.format("%d", i));
         }
-        _numberPeopleSpinner = getSpinner(R.id.activity_tip_split, split_list, numberPeople);
-
-        _tip = (TextView)findViewById(R.id.activity_tip_tip);
-        _tipPerPerson = (TextView)findViewById(R.id.activity_tip_tip_per_person);
-        _total = (TextView)findViewById(R.id.activity_tip_total);
-        _totalPerPerson = (TextView)findViewById(R.id.activity_tip_total_per_person);
+        setAdapter(_numberPeopleSpinner, split_list, numberPeople);
     }
 
-    private Spinner getSpinner(int spinnerId, List<String> list, int initialSelection) {
-        Spinner spinner = (Spinner) findViewById(spinnerId);
+    private void setAdapter(Spinner spinner, List<String> list, int initialSelection) {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, list);
         spinner.setAdapter(adapter);
         spinner.setSelection(initialSelection);
@@ -94,7 +89,6 @@ public class TipActivity extends Activity {
                 recalculate();
             }
         });
-        return spinner;
     }
 
     @Override
