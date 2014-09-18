@@ -8,7 +8,7 @@ import org.androidannotations.annotations.sharedpreferences.SharedPref;
  * Author: Rob Prouse
  * Date: 2014-09-17.
  */
-@SharedPref
+@SharedPref(SharedPref.Scope.UNIQUE)
 public interface AppSettings {
 
     /**

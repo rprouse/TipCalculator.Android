@@ -2,24 +2,23 @@ package net.alteridem.tipcalculator;
 
 import android.os.Bundle;
 import android.preference.PreferenceActivity;
-import android.view.MenuItem;
 
+import org.androidannotations.annotations.EActivity;
+import org.androidannotations.annotations.OptionsItem;
 
+@EActivity
 public class SettingsActivity extends PreferenceActivity {
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getPreferenceManager().setSharedPreferencesName("AppSettings");
         addPreferencesFromResource(R.xml.settings);
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+    @OptionsItem
+    void homeSelected() {
+        finish();
     }
 }

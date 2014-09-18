@@ -79,7 +79,7 @@ public class TipActivity extends Activity {
 
     @OptionsItem(R.id.action_settings)
     void launchSetting() {
-        startActivity(new Intent(this, SettingsActivity.class));
+        startActivity(new Intent(this, SettingsActivity_.class));
     }
 
     @OptionsItem(R.id.action_rate)
