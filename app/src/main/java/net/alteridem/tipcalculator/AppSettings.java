@@ -1,74 +1,35 @@
 package net.alteridem.tipcalculator;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import org.androidannotations.annotations.sharedpreferences.DefaultInt;
+import org.androidannotations.annotations.sharedpreferences.DefaultString;
+import org.androidannotations.annotations.sharedpreferences.SharedPref;
 
 /**
- * Author: Rob.Prouse
+ * Author: Rob Prouse
  * Date: 2014-09-17.
  */
-public class AppSettings {
-
-    private static final String BILL_AMOUNT = "SETTING_BILL_AMOUNT";
-    private static final String TIP = "SETTING_TIP";
-    private static final String PEOPLE = "SETTING_PEOPLE";
-
-    private SharedPreferences _preferences;
-    private Context _context;
-
-    public AppSettings(Context context){
-        _context = context;
-        _preferences = PreferenceManager.getDefaultSharedPreferences(context);
-    }
+@SharedPref
+public interface AppSettings {
 
     /**
      * The precision in decimals of the currency
      */
-    public int getPrecision(){
-        String precStr = _preferences.getString(getKey(R.string.settings_decimal_places_key), "2");
-        try {
-            return Integer.parseInt(precStr);
-        } catch (NumberFormatException nfe) {}
-        return 2;
-    }
+    @DefaultString(value = "2", keyRes = R.string.settings_decimal_places_key)
+    String precision();
 
     /**
      * The amount of the bill
      */
-    public String getBillAmount() {
-        return _preferences.getString(BILL_AMOUNT, "");
-    }
+    String bill();
 
     /**
      * The tip percentage
      */
-    public int getTipPercent() {
-        return _preferences.getInt(TIP, 15);
-    }
+    @DefaultInt(15)
+    int tip();
 
     /**
      * The 0 based number of people. 0 = 1 person.
      */
-    public int getNumberPeople() {
-        return _preferences.getInt(PEOPLE, 0);
-    }
-
-    /**
-     * Saves the data for the TipActivity state
-     * @param billAmount The amount of the bill
-     * @param tipPercent The tip percentage
-     * @param numberPeople The 0 based number of people. 0 = 1 person.
-     */
-    public void saveState(String billAmount, int tipPercent, int numberPeople) {
-        SharedPreferences.Editor edit = _preferences.edit();
-        edit.putString(BILL_AMOUNT, billAmount);
-        edit.putInt(TIP, tipPercent);
-        edit.putInt(PEOPLE, numberPeople);
-        edit.apply();
-    }
-
-    private String getKey(int stringId) {
-        return _context.getString(stringId);
-    }
+    int people();
 }

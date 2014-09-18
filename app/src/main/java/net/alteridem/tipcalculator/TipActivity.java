@@ -17,6 +17,7 @@ import org.androidannotations.annotations.ItemSelect;
 import org.androidannotations.annotations.OptionsItem;
 import org.androidannotations.annotations.OptionsMenu;
 import org.androidannotations.annotations.ViewById;
+import org.androidannotations.annotations.sharedpreferences.Pref;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -27,11 +28,12 @@ import java.util.List;
 public class TipActivity extends Activity {
     private static final String TAG = TipActivity.class.getSimpleName();
 
-    private AppSettings _settings;
+    @Pref
+    AppSettings_ _settings;
 
     @ViewById(R.id.activity_tip_bill_amount)      TextView _bill;
-    @ViewById(R.id.activity_tip_percent)          Spinner _tipPercentSpinner;
-    @ViewById(R.id.activity_tip_split)            Spinner _numberPeopleSpinner;
+    @ViewById(R.id.activity_tip_percent)          Spinner _tipSpinner;
+    @ViewById(R.id.activity_tip_split)            Spinner _peopleSpinner;
     @ViewById(R.id.activity_tip_tip)              TextView _tip;
     @ViewById(R.id.activity_tip_tip_per_person)   TextView _tipPerPerson;
     @ViewById(R.id.activity_tip_total)            TextView _total;
@@ -39,12 +41,9 @@ public class TipActivity extends Activity {
 
     @AfterViews
     void initViews() {
-
-        _settings = new AppSettings(this);
-
-        _bill.setText(_settings.getBillAmount());
-        setAdapter(_tipPercentSpinner, createList("%d%%", 0, 25), _settings.getTipPercent());
-        setAdapter(_numberPeopleSpinner, createList("%d", 1, 12), _settings.getNumberPeople());
+        _bill.setText(_settings.bill().get());
+        setAdapter(_tipSpinner, createList("%d%%", 0, 25), _settings.tip().get());
+        setAdapter(_peopleSpinner, createList("%d", 1, 12), _settings.people().get());
     }
 
     private List<String> createList(String format, int from, int to) {
@@ -64,9 +63,11 @@ public class TipActivity extends Activity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         Log.i(TAG, "onSaveInstanceState");
-        _settings.saveState(_bill.getText().toString(),
-                _tipPercentSpinner.getSelectedItemPosition(),
-                _numberPeopleSpinner.getSelectedItemPosition());
+        _settings.edit()
+                .bill().put(_bill.getText().toString())
+                .tip().put(_tipSpinner.getSelectedItemPosition())
+                .people().put(_peopleSpinner.getSelectedItemPosition())
+                .apply();
         super.onSaveInstanceState(outState);
     }
 
@@ -93,7 +94,7 @@ public class TipActivity extends Activity {
 
     @AfterTextChange(R.id.activity_tip_bill_amount)
     void recalculate() {
-        int precision = _settings.getPrecision();
+        int precision = precision();
         BigDecimal split = new BigDecimal(split()).setScale(precision, BigDecimal.ROUND_UP);
         if (split.intValue() == 0) return;  // We are not set up yet
         BigDecimal bill = billAmount(precision);
@@ -109,12 +110,20 @@ public class TipActivity extends Activity {
         _totalPerPerson.setText(String.format("%s", totalPerPerson.toPlainString()));
     }
 
+    private int precision() {
+        String precStr = _settings.precision().get();
+        try {
+            return Integer.parseInt(precStr);
+        } catch (NumberFormatException nfe) {}
+        return 2;
+    }
+
     private double percentage() {
-        return _tipPercentSpinner.getSelectedItemPosition();
+        return _tipSpinner.getSelectedItemPosition();
     }
 
     private double split() {
-        return _numberPeopleSpinner.getSelectedItemPosition() + 1;
+        return _peopleSpinner.getSelectedItemPosition() + 1;
     }
 
     private BigDecimal billAmount(int precision) {
