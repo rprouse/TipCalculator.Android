@@ -2,9 +2,7 @@ package net.alteridem.tipcalculator;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -18,11 +16,14 @@ import android.widget.TextView;
 
 import net.alteridem.tipcalculator.utilites.PlayStore;
 
+import org.androidannotations.annotations.AfterViews;
+import org.androidannotations.annotations.EActivity;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-
+@EActivity(R.layout.activity_tip)
 public class TipActivity extends Activity {
     private static final String TAG = TipActivity.class.getSimpleName();
 
@@ -35,15 +36,12 @@ public class TipActivity extends Activity {
     private TextView _total;
     private TextView _totalPerPerson;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        Log.i(TAG, "onCreate");
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tip);
+    @AfterViews
+    void initializeLists() {
 
         _settings = new AppSettings(this);
 
-        String bill = _settings.getBillAmount();;
+        String bill = _settings.getBillAmount();
         int tipPercent = _settings.getTipPercent();
         int numberPeople = _settings.getNumberPeople();   // This is the spinner position
 
@@ -166,8 +164,7 @@ public class TipActivity extends Activity {
 
     private BigDecimal billAmount(int precision) {
         try {
-            BigDecimal amount = new BigDecimal(_bill.getText().toString()).setScale(precision, BigDecimal.ROUND_UP);
-            return amount;
+            return new BigDecimal(_bill.getText().toString()).setScale(precision, BigDecimal.ROUND_UP);
         } catch (NumberFormatException nfe) {}
         return new BigDecimal(0).setScale(precision);
     }
